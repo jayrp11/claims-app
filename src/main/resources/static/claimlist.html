@@ -1,0 +1,20 @@
+<div class="container">
+  <div>
+    <h1>{{claimCtrl.person.name}}</h1>
+    <div><span class="oi oi-phone"></span> {{claimCtrl.person.phone}} | <strong>@</strong> {{claimCtrl.person.email}}</div>
+  </div>
+  
+  <div class="claims">
+    <h2>Claims</h2>
+    <table class="table table-bordered">
+      <thead>
+        <th>Description</th>
+        <th class="text-right">Amount</th>
+      </thead>
+      <tbody ng-repeat="claim in claimCtrl.claims">
+        <td>{{claim.description}}</td>
+        <td class="text-right">{{claim.amount | currency}}</td>
+      </tbody>
+    </table>
+  </div>
+</div>

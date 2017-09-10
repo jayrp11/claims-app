@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>Persons</h1>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="person in personCtrl.persons">
+      <tr ng-click="personCtrl.loadClaims(person)">
+        <td>{{person.name}}</td>
+        <td>{{person.phone}}</td>
+        <td>{{person.email}}</td> 
+      </tr>
+    </tbody>
+  </table>
+</div>
