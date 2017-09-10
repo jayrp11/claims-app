@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+    app:
+        image: jayrp11/claims-app
+        ports: 
+            - "8080:8080"
