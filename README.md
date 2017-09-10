@@ -12,3 +12,4 @@
 mvn clean install
 mvn spring-boot:run
 ```
+And go to http://localhost:8080/
