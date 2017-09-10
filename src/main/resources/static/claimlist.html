@@ -11,7 +11,7 @@
         <th>Description</th>
         <th class="text-right">Amount</th>
       </thead>
-      <tbody ng-repeat="claim in claimCtrl.claims">
+      <tbody ng-repeat="claim in claimCtrl.person.claims">
         <td>{{claim.description}}</td>
         <td class="text-right">{{claim.amount | currency}}</td>
       </tbody>

@@ -4,31 +4,26 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import net.jaydeep.claimsapp.view.View;
 
 @Entity
 public class Claim {
 
 	@Id
 	@GeneratedValue
+	@JsonView(View.Summary.class)
 	private long id;
 	
 	@Column(nullable = false)
+	@JsonView(View.Summary.class)
 	private String description;
 	
 	@Column(nullable = false)
+	@JsonView(View.Summary.class)
 	private double amount;
-	
-	@ManyToOne
-	private Person person;
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
 
 	public long getId() {
 		return id;
@@ -57,7 +52,7 @@ public class Claim {
 	@Override
 	public String toString() {
 		return String.format(
-                "Claims[id=%d, description='%s', amount='%.2f', person_id='%d']",
-                id, description, amount, person.getId());
+                "Claims[id=%d, description='%s', amount='%.2f']",
+                id, description, amount);
 	}
 }

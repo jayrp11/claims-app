@@ -1,35 +1,19 @@
-var claimApp = angular.module('claimApp', ['ngRoute', 'ngResource', 'LocalStorageModule']);
+var claimApp = angular.module('claimApp', ['ngRoute', 'ngResource']);
 
-claimApp.service('Persons', function($resource) {
-  this.fetch = function() {
-    return $resource('/persons', { personId:'@id' }).query();
-  };
-});
-
-claimApp.service('Claims', function($resource, localStorageService) {
-  this.fetch = function(personId) {
-	if(!localStorageService.get('person')) {
-	  var person = $resource('/persons/:personId', { personId:'@id' }).get(
-        {personId: personId},
-        function() {
-          localStorageService.set('person', person);
-        }
-      );
-	}
-    return $resource('/persons/:personId/claims', {personId: '@Id'}).query({personId:personId});
-  };
+claimApp.factory('Persons', function($resource) {
+  return $resource('/persons/:id');
 });
 
 claimApp.config(function($routeProvider) {
   var resolvePersons = {
     persons: function(Persons) {
-      return Persons.fetch();
+      return Persons.query();
     }
   }
 
-  var resolveClaims = {
-    claims: function(Claims, $route) {
-      return Claims.fetch($route.current.params.personId);
+  var resolvePerson = {
+    person: function(Persons, $route) {
+      return Persons.get({id: $route.current.params.personId});
     }
   }
 
@@ -42,23 +26,21 @@ claimApp.config(function($routeProvider) {
     .when('/claims/:personId', {
       controller:'ClaimController as claimCtrl',
       templateUrl:'claimlist.html',
-      resolve: resolveClaims
+      resolve: resolvePerson
     })
     .otherwise({ redirectTo: '/' })
 });
 
-claimApp.controller('PersonController', function(persons, localStorageService, $location) {
+claimApp.controller('PersonController', function(persons, $location) {
   var personCtrl = this;
   personCtrl.persons = persons;
 
   personCtrl.loadClaims = function(person) {
-    localStorageService.set('person', person);
     $location.path('/claims/' + person.id);
   }
 });
 
-claimApp.controller('ClaimController', function(claims, localStorageService) {
+claimApp.controller('ClaimController', function(person) {
   var claimCtrl = this;
-  claimCtrl.claims = claims;
-  claimCtrl.person = localStorageService.get('person');
+  claimCtrl.person = person;
 });
