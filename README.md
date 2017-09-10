@@ -2,3 +2,10 @@
 [![codecov.io](https://codecov.io/github/jayrp11/claims-app/coverage.svg)](https://codecov.io/github/jayrp11/claims-app)
 
 # Claims App
+
+## How to run
+
+```bash
+mvn clean install
+mvn spring-boot:run
+```
