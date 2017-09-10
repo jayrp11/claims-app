@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import net.jaydeep.claimsapp.domain.Claim;
 import net.jaydeep.claimsapp.domain.Person;
 import net.jaydeep.claimsapp.service.PersonRepository;
 
@@ -53,10 +54,17 @@ public class PersonControllerTests {
 		p.setPhone("0123456789");
 		p.setEmail("test@test.com");
 		
+		List<Claim> claims = new ArrayList<Claim>();
+		Claim c = new Claim();
+		c.setDescription("Desc1");
+		c.setAmount(11.50d);
+		claims.add(c);
+		p.setClaims(claims);
+		
 		given(this.personRepository.findOne(1L)).willReturn(p);
 		
 		this.mvc.perform(get("/persons/1").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(content().json("{'name':'Test', 'phone': '0123456789', 'email': 'test@test.com'}"));
+			.andExpect(content().json("{'name':'Test', 'phone': '0123456789', 'email': 'test@test.com', 'claims': [{ 'description': 'Desc1', 'amount': 11.50 }]}"));
 	}
 }

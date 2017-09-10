@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -19,10 +21,12 @@ public class Claim {
 	
 	@Column(nullable = false)
 	@JsonView(View.Summary.class)
+	@NotNull
 	private String description;
 	
 	@Column(nullable = false)
 	@JsonView(View.Summary.class)
+	@DecimalMin("0.1")
 	private double amount;
 
 	public long getId() {
