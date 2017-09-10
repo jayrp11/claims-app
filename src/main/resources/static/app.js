@@ -7,13 +7,13 @@ claimApp.factory('Persons', function($resource) {
 claimApp.config(function($routeProvider) {
   var resolvePersons = {
     persons: function(Persons) {
-      return Persons.query();
+      return Persons.query().$promise;
     }
   }
 
   var resolvePerson = {
     person: function(Persons, $route) {
-      return Persons.get({id: $route.current.params.personId});
+      return Persons.get({id: $route.current.params.personId}).$promise;
     }
   }
 
@@ -28,13 +28,22 @@ claimApp.config(function($routeProvider) {
       templateUrl:'claimlist.html',
       resolve: resolvePerson
     })
+    .when('/oops', {
+      templateUrl:'oops.html'
+    })
     .otherwise({ redirectTo: '/' })
+});
+
+claimApp.run(function($rootScope, $location) {
+  $rootScope.$on('$routeChangeError', function(event, current, previous, error) {
+    $location.path('/oops');
+  })
 });
 
 claimApp.controller('PersonController', function(persons, $location) {
   var personCtrl = this;
   personCtrl.persons = persons;
-
+  
   personCtrl.loadClaims = function(person) {
     $location.path('/claims/' + person.id);
   }
