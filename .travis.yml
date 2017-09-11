@@ -1,8 +1,16 @@
+sudo: required
+
 language: java
 jdk: oraclejdk8
+
 cache:
   directories:
   - $HOME/.m2
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker build -t jayrp11/claims-app:latest .
+    docker push USER/REPO;
+    fi
