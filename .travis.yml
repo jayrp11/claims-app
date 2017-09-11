@@ -11,6 +11,6 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker build -t jayrp11/claims-app:latest .
+    docker build -t jayrp11/claims-app:latest .;
     docker push USER/REPO;
     fi
